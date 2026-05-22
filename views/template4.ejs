@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invoice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 py-10">
+  <div class="relative px-6 pt-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg border border-gray-300">
+
+    <!-- Seller and Logo -->
+    <div class="flex justify-between mb-5">
+      <div class="flex flex-col text-left mr-3">
+        <h2 class="text-xl font-semibold"><%= companyInfo.companyName %></h2>
+        <p><%= companyInfo.companyWebsite %></p>
+        <p><%= companyInfo.companyAddress %></p>
+        <p><%= companyInfo.companyContact %></p>
+      </div>
+      <div class="my-auto mr-18">
+        <img class="w-44 h-24 rounded" src="<%= companyInfo.logo %>"  alt="Logo"/>
+      </div>
+    </div>
+
+    <!-- Buyer and Invoice Info -->
+    <div class="grid grid-cols-2 gap-4 border-b pb-4 mb-4">
+      <div>
+        <h3 class="font-semibold">BILLED TO:</h3>
+        <p class="font-bold"><%= userInfo.fullName %></p>
+        <p class="text-[15px]"><%= userInfo.city %></p>
+        <p class="text-[15px]"><%= userInfo.email %></p>
+        <p class="text-[15px]"><%= userInfo.contactNumber %></p>
+      </div>
+      <div class="text-left m-auto">
+        <p><strong>Invoice Number:</strong> INV<%= userInfo.id %></p>
+        <p><strong>Date:</strong> <%= new Date(userInfo.date).toLocaleDateString('en-GB') %></p>
+        <p><strong>Due Date:</strong> <%= new Date(userInfo.dueDate).toLocaleDateString('en-GB') %></p>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <table class="w-full table-auto">
+      <thead class="bg-blue-500 text-white">
+        <tr>
+          <th class="p-3 text-left">Item Description</th>
+          <th class="p-3 text-center">Quantity</th>
+          <th class="p-3 text-center">Unit Price</th>
+          <th class="p-3 text-center">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% userInfo.services.forEach(item => { %>
+          <tr class="bg-gray-100">
+            <td class="p-3 text-gray-800"><%= item.name %></td>
+            <td class="p-3 text-center text-gray-800"><%= item.quantity %></td>
+            <td class="p-3 text-center text-gray-800">$<%= item.price %></td>
+            <td class="p-3 text-center text-gray-800">$<%= (item.quantity * item.price).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+        <% userInfo.addOns.forEach(function(addOn) { %>
+          <tr>
+            <td class="p-2 text-gray-800"><%= addOn.name %></td>
+            <td class="p-2 text-center text-gray-800">1</td>
+            <td class="p-2 text-center text-gray-800">$<%= addOn.price %></td>
+            <td class="p-2 text-center text-gray-800">$<%= addOn.price %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <!-- Price Summary -->
+    <div class="text-right mt-3">
+      <p class="px-3"><span class="font-semibold">Subtotal:</span> $<%= userInfo.priceSummary.ItemPrice.toFixed(2) %></p>
+      <p class="px-3"><span class="font-semibold">Discount:</span> $<%= userInfo.priceSummary.totalDiscount.toFixed(2) %></p>
+      <p class="px-3"><span class="font-semibold">Total Tax:</span> $ 10.00</p>
+      <hr class="my-2 w-1/3 border-t border-gray-400 ml-auto"/>
+      <p class="text-2xl text-blue-500 font-bold px-3">Total: $<%= userInfo.priceSummary.totalAmount.toFixed(2) %></p>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="mt-4">
+      <h3 class="text-blue-500 font-semibold">Payment Details:</h3>
+      <p><strong>Bank Name:</strong>ABC Bank</p>
+      <p><strong>Account Number:</strong>128736749</p>
+      <p><strong>Payment Terms:</strong>Due in 30 days.</p>
+    </div>
+
+    <!-- Footer -->
+    <div>
+      <div class="text-right mt-4">
+        <hr class="w-1/3 border-t border-gray-400 ml-auto"/>
+        <p class="mx-8">Company Signature</p>
+      </div>
+      <div class="mt-4">
+        <p><strong>Terms and Instructions:</strong></p>
+        <hr class="w-1/3 border-t border-gray-400"/>
+        <p>Add payment instruction here...</p>
+      </div>
+    </div>
+
+    <p class="text-center mt-5 pb-1 font-semibold">Thank You for Your Business!</p>
+  </div>
+</body>
+</html>

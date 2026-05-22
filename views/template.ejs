@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+  </head>
+  <body class="bg-gray-100 flex justify-center ">
+    <div class="min-w-[800px] bg-gray-400 shadow-lg" style="background-color: '#9CA3AF' ;">
+      <!-- Header -->
+      <div class="pl-6 border-b">
+        <div class="flex justify-between items-center px-2 pt-2">
+          <h1 class="text-2xl font-bold text-center flex-1">Invoice</h1>
+        </div>
+
+       
+
+        <div class="flex justify-between items-center pb-4">
+          <img src="<%= companyInfo.logo %>"  alt="Logo" class="w-44 h-24 rounded" />
+          <div class="flex flex-col text-right mr-3">
+            <h2 class="text-xl font-semibold"><%= companyInfo.companyName %></h2>
+            <p><%= companyInfo.companyWebsite %></p>
+            <p><%= companyInfo.companyAddress %></p>
+            <p><%= companyInfo.companyContact %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="bg-white p-6">
+        <div class="flex justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-semibold">Billing To:</h2>
+            <p><%= userInfo.fullName %></p>
+            <p><%= userInfo.city %></p>
+            <p><%= userInfo.contactNumber %></p>
+            <p><%= userInfo.email %></p>
+          </div>
+
+          <div class="my-auto text-right">
+            <p><strong>Invoice:</strong> INV<%= userInfo.id %></p>
+            <p><strong>Date:</strong> <%= new Date(userInfo.date).toLocaleDateString('en-GB') %></p>
+            <p><strong>Due Date:</strong> <%= new Date(userInfo.dueDate).toLocaleDateString('en-GB') %></p>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <table class="w-full mt-5 mb-4">
+          <thead>
+            <tr class="bg-gray-300">
+              <th class="text-left p-4">Item</th>
+              <th class="p-2 text-center">Quantity</th>
+              <th class="p-2 text-center">Price(₹)</th>
+              <th class="p-2 text-center">Total(₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% userInfo.services.forEach(item => { %>
+              <tr>
+                <td class="p-2"><%= item.name %></td>
+                <td class="p-2 text-center"><%= item.quantity %></td>
+                <td class="p-2 text-center"><%= item.price.toFixed(2) %></td>
+                <td class="p-2 text-center"><%= (item.quantity * item.price).toFixed(2) %></td>
+              </tr>
+            <% }) %>
+            <% userInfo.addOns.forEach(function(addOn) { %>
+              <tr>
+                <td class="p-2"><%= addOn.name %></td>
+                <td class="p-2 text-center">1</td>
+                <td class="p-2 text-center"><%= addOn.price %></td>
+                <td class="p-2 text-center"><%= addOn.price %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+
+        <!-- Totals -->
+        <div class="text-right mx-3 whitespace-pre-line">
+          <p class="text-[15px]">Subtotal(₹): <%= userInfo.priceSummary.ItemPrice.toFixed(2) %></p>
+          <p class="text-[15px]">Discount(₹): -<%= userInfo.priceSummary.totalDiscount.toFixed(2) %></p>
+          <p class="text-[16px]">Tax(₹): 10%</p>
+          <p class="text-xl mt-3 font-bold"><strong>Total:</strong> ₹<%= userInfo.priceSummary.totalAmount.toFixed(2) %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

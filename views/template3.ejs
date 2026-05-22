@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex justify-center ">
+  
+        <div class="relative w-full h-full bg-white shadow-md rounded-lg border border-gray-300">
+          <div class="relative bg-gradient-to-r from-blue-700 to-blue-900 text-white overflow-hidden h-32 flex items-center px-6">
+            <!-- Wave Background -->
+            <svg class="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 320" preserveAspectRatio="none">
+              <path fill="rgba(255,255,255,0.05)" d="M0,224L80,197.3C160,171,320,117,480,106.7C640,96,800,128,960,149.3C1120,171,1280,181,1360,186.7L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+            </svg>
+      
+            <!-- Content -->
+            <div class="flex justify-between w-full z-10">
+              <div>
+                <h1 class="text-3xl font-bold">INVOICE</h1>
+                <p class="text-lg mt-10 font-semibold">NO: INV-<%= userInfo.id %></p>
+              </div>
+              <img class="w-44 h-24 rounded" src="<%= companyInfo.logo %>" alt="Logo" />
+            </div>
+          </div>
+      
+          <div class="p-5">
+            <div class="grid grid-cols-2 gap-4 border-b pb-4 mb-4">
+              <div>
+                <h3 class="font-semibold">Billed To:</h3>
+                <p class="font-semibold"><%= userInfo.fullName %></p>
+                <p class="text-[15px]"><%= userInfo.city %></p>
+                <p class="text-[15px]"><%= userInfo.email %></p>
+                <p class="text-[15px]"><%= userInfo.contactNumber %></p>
+                <div class="my-3">
+                  <p><strong>Date:</strong> <%= new Date(userInfo.date).toLocaleDateString('en-GB') %></p>
+                  <p><strong>Due Date:</strong> <%= new Date(userInfo.dueDate).toLocaleDateString('en-GB') %></p>
+                </div>
+              </div>
+      
+              <div class="text-left mx-auto">
+                <div class="flex flex-col text-left mr-3">
+                  <h2 class="text-2xl font-semibold"><%= companyInfo.companyName %></h2>
+                  <p><%= companyInfo.companyWebsite %></p>
+                  <p><%= companyInfo.companyAddress %></p>
+                  <p><%= companyInfo.companyContact %></p>
+                </div>
+              </div>
+            </div>
+      
+            <table class="w-full border border-collapse border-black mb-4">
+              <thead>
+                <tr class="bg-blue-800 text-white">
+                  <th class="border border-black p-2">Item Description</th>
+                  <th class="border border-black p-2">Quantity</th>
+                  <th class="border border-black p-2">Unit Price</th>
+                  <th class="border border-black p-2">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% userInfo.services.forEach(function(item) { %>
+                  <tr>
+                    <td class="border p-2"><%= item.name %></td>
+                    <td class="border p-2 text-center"><%= item.quantity %></td>
+                    <td class="border p-2 text-center">$<%= item.price %></td>
+                    <td class="border p-2 text-center">$<%= item.quantity * item.price %></td>
+                  </tr>
+                <% }); %>
+                <% userInfo.addOns.forEach(function(addOn) { %>
+                  <tr>
+                    <td class="border p-2"><%= addOn.name %></td>
+                    <td class="border p-2 text-center">1</td>
+                    <td class="border p-2 text-center">$<%= addOn.price %></td>
+                    <td class="border p-2 text-center">$<%= addOn.price %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+      
+            <div class="text-right">
+              <p class="px-3"><strong>Subtotal:</strong> $<%= userInfo.priceSummary.ItemPrice.toFixed(2) %></p>
+              <p class="px-3"><strong>Discount:</strong> $<%= userInfo.priceSummary.totalDiscount.toFixed(2) %></p>
+              <hr class="my-1 w-1/3 border-t border-gray-400 ml-auto" />
+              <p class="text-xl text-blue-700 font-bold px-3">Total: $<%= userInfo.priceSummary.totalAmount.toFixed(2) %></p>
+            </div>
+      
+            <div>
+              <h3 class="text-blue-500 font-semibold">Payment Details:</h3>
+              <p><strong>Bank Name:</strong>ABC Bank</p>
+              <p><strong>Account Number:</strong>1265378294</p>
+              <p><strong>Payment Terms:</strong>Due in 30 days</p>
+            </div>
+      
+            <div class="text-right mt-4">
+              <hr class="w-1/3 border-t border-gray-400 ml-auto" />
+              <p class="mx-8">Company Signature</p>
+            </div>
+      
+            <div>
+              <p><strong>Notes:</strong></p>
+              <p>This is applicable for one Time.</p>
+            </div>
+      
+            <p class="text-center mt-6 font-semibold">Thank You for Your Business!</p>
+         
+        </div>
+      </div>
+      
+  </body>
+  </html>  
