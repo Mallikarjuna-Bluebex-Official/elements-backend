@@ -102,6 +102,29 @@ router.post("/replace", upload.single("file"), (req, res) => {
   }
 });
 
+// GET /api/media/list?type=banner
+router.get("/list", (req, res) => {
+  try {
+    const { type } = req.query;
+    const dir = resolveDir(type);
+    if (!dir) return res.status(400).json({ error: `Invalid type "${type}".` });
+    if (!fs.existsSync(dir)) return res.json({ files: [] });
+
+    const files = fs.readdirSync(dir)
+      .filter(name => isAllowedFile(name))
+      .map((name, i) => ({
+        id: `${type}-${i}-${name}`,
+        name,
+        url: `${BASE_URL}/uploads/${type}/${name}`,
+      }));
+
+    return res.json({ files });
+  } catch (err) {
+    console.error("[media/list]", err.message);
+    return res.status(500).json({ error: "Failed to list files." });
+  }
+});
+
 // ─── DELETE /api/media/delete ─────────────────────────────────────────────────
 
 router.delete("/delete", (req, res) => {
