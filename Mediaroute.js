@@ -14,7 +14,7 @@ router.use(express.json());
 const ASSETS_BASE = process.env.ASSETS_BASE || "/var/www/assets";
 const BASE_URL    = process.env.BASE_URL    || "https://elementsoneastcoast.com";
 
-const ALLOWED_TYPES      = ["banner", "gallery"];
+const ALLOWED_TYPES      = ["banner", "gallery", "promotion"];
 const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".mp4", ".webm", ".mov"];
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
