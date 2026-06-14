@@ -73,7 +73,7 @@ const verifyStatus = async(req, res) => {
 
   if (!txnid || typeof txnid !== 'string') {
     const message = encodeURIComponent('Invalid transaction ID');
-    return res.redirect(`${frontendUrl}/failure?message=${message}`);
+    return res.redirect(`${frontendUrl}/booking/failure?message=${message}`);
   }
 
   try{
@@ -86,7 +86,7 @@ const verifyStatus = async(req, res) => {
     if (!txnKey) {
       console.error("Transaction not found in response");
       const message = encodeURIComponent('Transaction not found');
-      return res.redirect(`${frontendUrl}/failure?message=${message}`);
+      return res.redirect(`${frontendUrl}/booking/failure?message=${message}`);
     }
 
     //const status = details[txnKey]?.status;
@@ -96,15 +96,15 @@ const verifyStatus = async(req, res) => {
   
   if (status === 'success') {
         const message = encodeURIComponent('Transaction successful');
-        return res.redirect(`${frontendUrl}/success?message=${message}`);
+        return res.redirect(`${frontendUrl}/booking/success?message=${message}`);
   } else {
         const message = encodeURIComponent('Transaction failed');
-        return res.redirect(`${frontendUrl}/failure?message=${message}`);
+        return res.redirect(`${frontendUrl}/booking/failure?message=${message}`);
   } 
   }catch(error){
     console.error('Payment verification failed:', error);
     const message = encodeURIComponent('Internal server error');
-    return res.redirect(`${frontendUrl}/failure?message=${message}`);
+    return res.redirect(`${frontendUrl}/booking/failure?message=${message}`);
   }
   };
   
